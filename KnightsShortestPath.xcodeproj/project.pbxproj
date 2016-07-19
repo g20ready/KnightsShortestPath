@@ -15,6 +15,11 @@
 		130B13DF1D3E47450060059C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 130B13DD1D3E47450060059C /* LaunchScreen.storyboard */; };
 		130B13EA1D3E47450060059C /* KnightsShortestPathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B13E91D3E47450060059C /* KnightsShortestPathTests.m */; };
 		130B13F51D3E47450060059C /* KnightsShortestPathUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B13F41D3E47450060059C /* KnightsShortestPathUITests.m */; };
+		130B14051D3E510F0060059C /* Square.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B14041D3E510F0060059C /* Square.m */; };
+		130B14081D3E522E0060059C /* Knight.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B14071D3E522E0060059C /* Knight.m */; };
+		130B140C1D3E54E90060059C /* KnightsShortestPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B140B1D3E54E90060059C /* KnightsShortestPath.m */; };
+		130B14131D3E57280060059C /* StdQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B14121D3E57280060059C /* StdQueue.m */; };
+		13E270581D3EACCB00117585 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E270571D3EACCB00117585 /* UIView+Additions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +56,16 @@
 		130B13F01D3E47450060059C /* KnightsShortestPathUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnightsShortestPathUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		130B13F41D3E47450060059C /* KnightsShortestPathUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KnightsShortestPathUITests.m; sourceTree = "<group>"; };
 		130B13F61D3E47450060059C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		130B14031D3E510F0060059C /* Square.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Square.h; sourceTree = "<group>"; };
+		130B14041D3E510F0060059C /* Square.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Square.m; sourceTree = "<group>"; };
+		130B14061D3E522E0060059C /* Knight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Knight.h; sourceTree = "<group>"; };
+		130B14071D3E522E0060059C /* Knight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Knight.m; sourceTree = "<group>"; };
+		130B140A1D3E54E90060059C /* KnightsShortestPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KnightsShortestPath.h; sourceTree = "<group>"; };
+		130B140B1D3E54E90060059C /* KnightsShortestPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnightsShortestPath.m; sourceTree = "<group>"; };
+		130B14111D3E57280060059C /* StdQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdQueue.h; sourceTree = "<group>"; };
+		130B14121D3E57280060059C /* StdQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StdQueue.m; sourceTree = "<group>"; };
+		13E270561D3EACCB00117585 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
+		13E270571D3EACCB00117585 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +116,8 @@
 		130B13CE1D3E47450060059C /* KnightsShortestPath */ = {
 			isa = PBXGroup;
 			children = (
+				130B140D1D3E56A80060059C /* Utils */,
+				130B14091D3E54AC0060059C /* Solver */,
 				130B14021D3E48E60060059C /* Model */,
 				130B13D21D3E47450060059C /* AppDelegate.h */,
 				130B13D31D3E47450060059C /* AppDelegate.m */,
@@ -144,8 +161,32 @@
 		130B14021D3E48E60060059C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				130B14031D3E510F0060059C /* Square.h */,
+				130B14041D3E510F0060059C /* Square.m */,
+				130B14061D3E522E0060059C /* Knight.h */,
+				130B14071D3E522E0060059C /* Knight.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		130B14091D3E54AC0060059C /* Solver */ = {
+			isa = PBXGroup;
+			children = (
+				130B140A1D3E54E90060059C /* KnightsShortestPath.h */,
+				130B140B1D3E54E90060059C /* KnightsShortestPath.m */,
+			);
+			name = Solver;
+			sourceTree = "<group>";
+		};
+		130B140D1D3E56A80060059C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				130B14111D3E57280060059C /* StdQueue.h */,
+				130B14121D3E57280060059C /* StdQueue.m */,
+				13E270561D3EACCB00117585 /* UIView+Additions.h */,
+				13E270571D3EACCB00117585 /* UIView+Additions.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,8 +319,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				130B14051D3E510F0060059C /* Square.m in Sources */,
+				130B14131D3E57280060059C /* StdQueue.m in Sources */,
+				130B140C1D3E54E90060059C /* KnightsShortestPath.m in Sources */,
 				130B13D71D3E47450060059C /* ViewController.m in Sources */,
+				13E270581D3EACCB00117585 /* UIView+Additions.m in Sources */,
 				130B13D41D3E47450060059C /* AppDelegate.m in Sources */,
+				130B14081D3E522E0060059C /* Knight.m in Sources */,
 				130B13D11D3E47450060059C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,6 +550,7 @@
 				130B13FB1D3E47450060059C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		130B13FC1D3E47450060059C /* Build configuration list for PBXNativeTarget "KnightsShortestPathTests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +559,7 @@
 				130B13FE1D3E47450060059C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		130B13FF1D3E47450060059C /* Build configuration list for PBXNativeTarget "KnightsShortestPathUITests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +568,7 @@
 				130B14011D3E47450060059C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

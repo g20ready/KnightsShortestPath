@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lEt-gh-cpp">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Knights Shortest Paths-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -16,11 +18,119 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tb5-bL-wPm">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="tb5-bL-wPm" secondAttribute="height" id="2Ao-tw-BnO"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="2Ao-tw-BnO"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="2Ao-tw-BnO"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vKG-Tm-A8s">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="g77-jL-xEo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="tb5-bL-wPm" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="2ni-ar-KF3"/>
+                            <constraint firstItem="tb5-bL-wPm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="8GU-uB-URG"/>
+                            <constraint firstItem="tb5-bL-wPm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="EEK-3f-BFA"/>
+                            <constraint firstItem="vKG-Tm-A8s" firstAttribute="top" secondItem="tb5-bL-wPm" secondAttribute="bottom" constant="8" id="Tz9-1D-Ygt"/>
+                            <constraint firstItem="vKG-Tm-A8s" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="VRi-a3-WLP"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vKG-Tm-A8s" secondAttribute="bottom" constant="8" id="ehQ-xS-vJ2"/>
+                            <constraint firstItem="vKG-Tm-A8s" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="p4t-Sb-ydY"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="tb5-bL-wPm"/>
+                                <exclude reference="vKG-Tm-A8s"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="2ni-ar-KF3"/>
+                                <exclude reference="8GU-uB-URG"/>
+                                <exclude reference="EEK-3f-BFA"/>
+                                <exclude reference="Tz9-1D-Ygt"/>
+                                <exclude reference="VRi-a3-WLP"/>
+                                <exclude reference="p4t-Sb-ydY"/>
+                                <exclude reference="ehQ-xS-vJ2"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular">
+                            <mask key="subviews">
+                                <include reference="tb5-bL-wPm"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="2ni-ar-KF3"/>
+                                <include reference="8GU-uB-URG"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="vKG-Tm-A8s"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="EEK-3f-BFA"/>
+                                <include reference="Tz9-1D-Ygt"/>
+                                <include reference="VRi-a3-WLP"/>
+                                <include reference="p4t-Sb-ydY"/>
+                                <include reference="ehQ-xS-vJ2"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Knights Shortest Paths" id="TA0-ZM-F84">
+                        <barButtonItem key="leftBarButtonItem" title="Reset" id="goV-sI-CQL">
+                            <connections>
+                                <action selector="handleResetClicked:" destination="BYZ-38-t0r" id="K59-xu-YWo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Calculate" id="ovK-l1-nyH">
+                            <connections>
+                                <action selector="handleCalculateClicked:" destination="BYZ-38-t0r" id="y9R-rg-8fU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="boardContainerView" destination="tb5-bL-wPm" id="cyU-CT-Pcc"/>
+                        <outlet property="calculateBarButtonItem" destination="ovK-l1-nyH" id="qNM-NC-uDQ"/>
+                        <outlet property="resetBarButtonItem" destination="goV-sI-CQL" id="LIK-QH-jyf"/>
+                        <outlet property="resultsTableView" destination="vKG-Tm-A8s" id="zzx-BJ-b89"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1096.5" y="297"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="r7U-Go-hJo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lEt-gh-cpp" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EWe-ih-Owy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="GpG-b3-pxf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XjV-lK-wXG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="297" y="-395"/>
         </scene>
     </scenes>
 </document>
