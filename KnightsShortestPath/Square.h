@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-static char const MinRowChar = 'A';
-static char const MinColChar = '1';
+static char const MinRowChar = '8';
+static char const MinColChar = 'A';
 
 static NSInteger const MaxRows = 8;
 static NSInteger const MaxCols = 8;
@@ -27,5 +27,9 @@ static NSInteger const MaxCols = 8;
 
 - (BOOL) isValidMoveByRows:(NSInteger) moveByRows
                    andCols:(NSInteger) moveByCols;
+
++ (char) chessNotationForRow:(NSInteger) row;
+
++ (char) chessNotationForColumn:(NSInteger) column;
 
 @end

@@ -73,31 +73,101 @@
 }
 
 - (void) initializeBoard {
+    //Empty board
     [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];
     }];
-    CGFloat viewSide = self.boardContainerView.frame.size.width / 8;
-    UIView* view = nil;
+    
+    CGFloat notationMargin = 21.f;
+    
+    //We reserve 2 * notation margin
+    CGFloat squareSide = (self.boardContainerView.frame.size.width - 2.f * notationMargin) / 8;
+    NSLog(@"Square Side is %f", squareSide);
+    
+    UIView *view = nil;
+    CGFloat x;
+    CGFloat y;
+    
+    UILabel *notation;
+    NSString *notationName;
+    
+    //We add column notations here
     for (NSInteger i=0; i<8; i++) {
+        x = notationMargin + squareSide * i;
+        y = 0;
+        notationName = [NSString stringWithFormat:@"%c", [Square chessNotationForColumn:i]];
+        notation = [self notationLabelWithFrame:CGRectMake(x, y, squareSide, notationMargin)
+                                        andName:notationName];
+        [self.boardContainerView addSubview:notation];
+        y = notationMargin + 8 * squareSide;
+        notation = [self notationLabelWithFrame:CGRectMake(x, y, squareSide, notationMargin)
+                                        andName:notationName];
+        [self.boardContainerView addSubview:notation];
+    }
+    
+    //We add row notations here
+    for (NSInteger i=0; i<8; i++) {
+        x = 0;
+        y = notationMargin + squareSide * i;
+        notationName = [NSString stringWithFormat:@"%c", [Square chessNotationForRow:i]];
+        notation = [self notationLabelWithFrame:CGRectMake(x, y, notationMargin, squareSide)
+                                        andName:notationName];
+        [self.boardContainerView addSubview:notation];
+        x = notationMargin + 8 * squareSide;
+        notation = [self notationLabelWithFrame:CGRectMake(x, y, notationMargin, squareSide)
+                                        andName:notationName];
+        [self.boardContainerView addSubview:notation];
+    }
+    
+    //We add chess squares
+    UITapGestureRecognizer *tapGestureRecognizer;
+    for (NSInteger i=0; i<8;i++) {
         for (NSInteger j=0; j<8; j++) {
-            view = [[UIView alloc] initWithFrame:CGRectMake(viewSide*j, viewSide * i, viewSide, viewSide)];
+            x = notationMargin + squareSide * j;
+            y = notationMargin + squareSide * i;
+            view = [[UIView alloc] initWithFrame:CGRectMake(x, y, squareSide, squareSide)];
             view.boardRow = i;
             view.boardColumn = j;
-            
-            [view setBackgroundColor:[self colorAtRow:i
-                                               andCol:j
-                                              reverse:NO]];
-            
-            UITapGestureRecognizer *tap =
-            [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                    action:@selector(handleSingleTap:)];
-            [view addGestureRecognizer:tap];
-            view.userInteractionEnabled = YES;
-            
+            [view setBackgroundColor:[self colorAtRow:i andCol:j reverse:NO]];
             [self.boardContainerView addSubview:view];
+            
+            tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                           action:@selector(handleSingleTap:)];
+            [view addGestureRecognizer:tapGestureRecognizer];
         }
     }
 }
+
+- (UILabel *) notationLabelWithFrame:(CGRect) frame andName:(NSString *) name {
+    UILabel *notation = [[UILabel alloc] initWithFrame:frame];
+    notation.textColor = [UIColor whiteColor];
+    notation.textAlignment = NSTextAlignmentCenter;
+    notation.font = [UIFont boldSystemFontOfSize:14.f];
+    notation.text = name;
+    return notation;
+}
+
+//- (void) initializeBoard {
+//    [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        [obj removeFromSuperview];
+//    }];
+//    CGFloat viewSide = self.boardContainerView.frame.size.width / 8;
+//    UIView* view = nil;
+//    for (NSInteger i=0; i<8; i++) {
+//        for (NSInteger j=0; j<8; j++) {
+//            view = [[UIView alloc] initWithFrame:CGRectMake(viewSide*j, viewSide * i, viewSide, viewSide)];
+//            view.boardRow = i;
+//            view.boardColumn = j;
+//            [view setBackgroundColor:[self colorAtRow:i
+//                                               andCol:j
+//                                              reverse:NO]];
+
+//            view.userInteractionEnabled = YES;
+//            
+//            [self.boardContainerView addSubview:view];
+//        }
+//    }
+//}
 
 - (UIColor*) colorAtRow:(NSInteger) row andCol:(NSInteger) col reverse:(BOOL) reversed {
     BOOL value = reversed ? row % 2 != col % 2 : row % 2 == col % 2;

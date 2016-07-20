@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -21,7 +22,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tb5-bL-wPm">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="tb5-bL-wPm" secondAttribute="height" id="2Ao-tw-BnO"/>
                                 </constraints>
@@ -60,13 +61,13 @@
                                 <exclude reference="vKG-Tm-A8s"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="ehQ-xS-vJ2"/>
                                 <exclude reference="2ni-ar-KF3"/>
                                 <exclude reference="8GU-uB-URG"/>
                                 <exclude reference="EEK-3f-BFA"/>
                                 <exclude reference="Tz9-1D-Ygt"/>
                                 <exclude reference="VRi-a3-WLP"/>
                                 <exclude reference="p4t-Sb-ydY"/>
-                                <exclude reference="ehQ-xS-vJ2"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -83,11 +84,11 @@
                                 <include reference="vKG-Tm-A8s"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="ehQ-xS-vJ2"/>
                                 <include reference="EEK-3f-BFA"/>
                                 <include reference="Tz9-1D-Ygt"/>
                                 <include reference="VRi-a3-WLP"/>
                                 <include reference="p4t-Sb-ydY"/>
-                                <include reference="ehQ-xS-vJ2"/>
                             </mask>
                         </variation>
                     </view>

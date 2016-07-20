@@ -35,7 +35,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%c%c", (char)(MinRowChar+self.row), (char)(MinColChar+self.col)];
+    return [NSString stringWithFormat:@"%c%c", [Square chessNotationForRow:self.row], [Square chessNotationForColumn:self.col]];
 }
 
 - (BOOL) isValidMoveByRows:(NSInteger)moveByRows
@@ -45,6 +45,16 @@
     self.row + moveByRows < MaxRows &&
     self.col + moveByCols >=0 &&
     self.col + moveByCols < MaxCols;
+}
+
+#pragma mark - Chess notation
+
++ (char) chessNotationForRow:(NSInteger)row {
+    return (char)(MinRowChar-row);
+}
+
++ (char) chessNotationForColumn:(NSInteger)column {
+    return (char)(MinColChar+column);
 }
 
 @end
