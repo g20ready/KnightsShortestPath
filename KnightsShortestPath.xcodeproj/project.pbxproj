@@ -19,6 +19,8 @@
 		130B14081D3E522E0060059C /* Knight.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B14071D3E522E0060059C /* Knight.m */; };
 		130B140C1D3E54E90060059C /* KnightsShortestPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B140B1D3E54E90060059C /* KnightsShortestPath.m */; };
 		130B14131D3E57280060059C /* StdQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 130B14121D3E57280060059C /* StdQueue.m */; };
+		13B0C3881D3FF94F002B308A /* ShortestPathTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B0C3861D3FF94F002B308A /* ShortestPathTableViewCell.m */; };
+		13B0C3891D3FF94F002B308A /* ShortestPathTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B0C3871D3FF94F002B308A /* ShortestPathTableViewCell.xib */; };
 		13E270581D3EACCB00117585 /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E270571D3EACCB00117585 /* UIView+Additions.m */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,9 @@
 		130B140B1D3E54E90060059C /* KnightsShortestPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KnightsShortestPath.m; sourceTree = "<group>"; };
 		130B14111D3E57280060059C /* StdQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StdQueue.h; sourceTree = "<group>"; };
 		130B14121D3E57280060059C /* StdQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StdQueue.m; sourceTree = "<group>"; };
+		13B0C3851D3FF94F002B308A /* ShortestPathTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShortestPathTableViewCell.h; sourceTree = "<group>"; };
+		13B0C3861D3FF94F002B308A /* ShortestPathTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShortestPathTableViewCell.m; sourceTree = "<group>"; };
+		13B0C3871D3FF94F002B308A /* ShortestPathTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShortestPathTableViewCell.xib; sourceTree = "<group>"; };
 		13E270561D3EACCB00117585 /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
 		13E270571D3EACCB00117585 /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,13 +121,12 @@
 		130B13CE1D3E47450060059C /* KnightsShortestPath */ = {
 			isa = PBXGroup;
 			children = (
+				13B0C3841D3FF922002B308A /* UI */,
 				130B140D1D3E56A80060059C /* Utils */,
 				130B14091D3E54AC0060059C /* Solver */,
 				130B14021D3E48E60060059C /* Model */,
 				130B13D21D3E47450060059C /* AppDelegate.h */,
 				130B13D31D3E47450060059C /* AppDelegate.m */,
-				130B13D51D3E47450060059C /* ViewController.h */,
-				130B13D61D3E47450060059C /* ViewController.m */,
 				130B13D81D3E47450060059C /* Main.storyboard */,
 				130B13DB1D3E47450060059C /* Assets.xcassets */,
 				130B13DD1D3E47450060059C /* LaunchScreen.storyboard */,
@@ -187,6 +191,18 @@
 				13E270571D3EACCB00117585 /* UIView+Additions.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		13B0C3841D3FF922002B308A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				130B13D51D3E47450060059C /* ViewController.h */,
+				130B13D61D3E47450060059C /* ViewController.m */,
+				13B0C3851D3FF94F002B308A /* ShortestPathTableViewCell.h */,
+				13B0C3861D3FF94F002B308A /* ShortestPathTableViewCell.m */,
+				13B0C3871D3FF94F002B308A /* ShortestPathTableViewCell.xib */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +310,7 @@
 			files = (
 				130B13DF1D3E47450060059C /* LaunchScreen.storyboard in Resources */,
 				130B13DC1D3E47450060059C /* Assets.xcassets in Resources */,
+				13B0C3891D3FF94F002B308A /* ShortestPathTableViewCell.xib in Resources */,
 				130B13DA1D3E47450060059C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				130B14051D3E510F0060059C /* Square.m in Sources */,
+				13B0C3881D3FF94F002B308A /* ShortestPathTableViewCell.m in Sources */,
 				130B14131D3E57280060059C /* StdQueue.m in Sources */,
 				130B140C1D3E54E90060059C /* KnightsShortestPath.m in Sources */,
 				130B13D71D3E47450060059C /* ViewController.m in Sources */,

@@ -37,7 +37,10 @@
         for (Square *adjacentSquare in [piece getPssibleSquaresForRow:currentSquare.row
                                                                andCol:currentSquare.col]) {
             if (![self isSquare:adjacentSquare inVisited:visited]) {
-                if ([currentSolution count] < maxMovesCount) {
+                //CurrentSolution Contains number of blocks
+                //A move is from block to block, so 1 move is 2 blocks
+                //So we should add 1 to maxMovesCount so that is is actually moves
+                if ([currentSolution count] < maxMovesCount + 1) {
                     NSMutableArray *branch = [NSMutableArray arrayWithArray:currentSolution];
                     [branch addObject:adjacentSquare];
                     [visited addObject:adjacentSquare];

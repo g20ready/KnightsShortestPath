@@ -14,62 +14,33 @@
 
 @implementation ViewController
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initialize];
+    [self initializeTableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [self initializeBoard];
 }
 
-- (IBAction)handleResetClicked:(id)sender {
-    if (self.startView) {
-        [self.startView setBackgroundColor:[self colorAtRow:self.startView.boardRow
-                                                     andCol:self.startView.boardColumn
-                                                    reverse:NO]];
-    }
-    if (self.endView) {
-        [self.endView setBackgroundColor:[self colorAtRow:self.endView.boardRow
-                                                     andCol:self.endView.boardColumn
-                                                  reverse:NO]];
-    }
-    
-    self.startView = nil;
-    self.endView = nil;
-    
-    [self.calculateBarButtonItem setEnabled:NO];
-}
-
-- (IBAction)handleCalculateClicked:(id)sender {
-    KnightsShortestPath *ksp = [[KnightsShortestPath alloc] init];
-    
-    Square *startSquare = [[Square alloc] initWithRow:self.startView.boardRow andCol:self.startView.boardColumn];
-    
-    Square *endSquare = [[Square alloc] initWithRow:self.endView.boardRow andCol:self.endView.boardColumn];
-    
-    self.solutions = [ksp findShortestPathFrom:startSquare to:endSquare piece:[[Knight alloc] init] withMaxMovesCount:3];
-    
-    [self.resultsTableView reloadData];
-    
-    if ([self.solutions count] == 0) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Finished Calculating" message:@"No Path found" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:action];
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - functions
+#pragma mark - Initialization
 
 - (void) initialize {
     [self.calculateBarButtonItem setEnabled:NO];
     self.title = @"Select Start Square";
+}
+
+- (void) initializeTableView {
+    self.resultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.resultsTableView registerNib:[ShortestPathTableViewCell nib]
+                forCellReuseIdentifier:[ShortestPathTableViewCell reuseIdentifier]];
 }
 
 - (void) initializeBoard {
@@ -138,6 +109,48 @@
     }
 }
 
+#pragma mark - Handlers
+
+- (IBAction)handleResetClicked:(id)sender {
+    self.title = @"Select Start Square";
+    if (self.startView) {
+        [self.startView setBackgroundColor:[self colorAtRow:self.startView.boardRow
+                                                     andCol:self.startView.boardColumn
+                                                    reverse:NO]];
+    }
+    if (self.endView) {
+        [self.endView setBackgroundColor:[self colorAtRow:self.endView.boardRow
+                                                     andCol:self.endView.boardColumn
+                                                  reverse:NO]];
+    }
+    
+    self.startView = nil;
+    self.endView = nil;
+    
+    [self.calculateBarButtonItem setEnabled:NO];
+}
+
+- (IBAction)handleCalculateClicked:(id)sender {
+    KnightsShortestPath *ksp = [[KnightsShortestPath alloc] init];
+    
+    Square *startSquare = [[Square alloc] initWithRow:self.startView.boardRow andCol:self.startView.boardColumn];
+    
+    Square *endSquare = [[Square alloc] initWithRow:self.endView.boardRow andCol:self.endView.boardColumn];
+    
+    self.solutions = [ksp findShortestPathFrom:startSquare to:endSquare piece:[[Knight alloc] init] withMaxMovesCount:3];
+    
+    [self.resultsTableView reloadData];
+    
+    if ([self.solutions count] == 0) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Finished Calculating" message:@"No Path found" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:action];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+#pragma mark - Helper Functions
+
 - (UILabel *) notationLabelWithFrame:(CGRect) frame andName:(NSString *) name {
     UILabel *notation = [[UILabel alloc] initWithFrame:frame];
     notation.textColor = [UIColor whiteColor];
@@ -146,28 +159,6 @@
     notation.text = name;
     return notation;
 }
-
-//- (void) initializeBoard {
-//    [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [obj removeFromSuperview];
-//    }];
-//    CGFloat viewSide = self.boardContainerView.frame.size.width / 8;
-//    UIView* view = nil;
-//    for (NSInteger i=0; i<8; i++) {
-//        for (NSInteger j=0; j<8; j++) {
-//            view = [[UIView alloc] initWithFrame:CGRectMake(viewSide*j, viewSide * i, viewSide, viewSide)];
-//            view.boardRow = i;
-//            view.boardColumn = j;
-//            [view setBackgroundColor:[self colorAtRow:i
-//                                               andCol:j
-//                                              reverse:NO]];
-
-//            view.userInteractionEnabled = YES;
-//            
-//            [self.boardContainerView addSubview:view];
-//        }
-//    }
-//}
 
 - (UIColor*) colorAtRow:(NSInteger) row andCol:(NSInteger) col reverse:(BOOL) reversed {
     BOOL value = reversed ? row % 2 != col % 2 : row % 2 == col % 2;
@@ -218,25 +209,47 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-    
+    NSString *reuseIdentifier = [ShortestPathTableViewCell reuseIdentifier];
+
+    ShortestPathTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [self configureCell:cell atIndexPath:indexPath];
+    return cell;
+}
+
+- (void) configureCell:(ShortestPathTableViewCell *) cell
+           atIndexPath:(NSIndexPath *) indexPath {
+    cell.resultLabel.text = [self movesDescriptionAtIndexPath:indexPath];
+    [cell.playButton addTarget:self
+                        action:@selector(handlePlayButtonClicked:)
+              forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)handlePlayButtonClicked:(UIButton *)sender {
+    CGPoint center= sender.center;
+    CGPoint rootViewPoint = [sender.superview convertPoint:center
+                                                    toView:self.resultsTableView];
+    NSIndexPath *indexPath = [self.resultsTableView indexPathForRowAtPoint:rootViewPoint];
+    //TODO animation
+}
+
+- (NSString *) movesDescriptionAtIndexPath:(NSIndexPath *) indexPath {
     NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
-    
     __block NSString *description = @"";
     [moves enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         Square *square = (Square*)obj;
-        description = [description stringByAppendingString:[NSString stringWithFormat:@"%@, ", square]];
+        description = [description stringByAppendingString:[NSString stringWithFormat:@"%@ > ", square]];
     }];
-    
-    cell.textLabel.text = description;
-    
-    return cell;
+    description = [description substringToIndex:[description length] - 3];
+    return description;
+}
+
+#pragma mark - TableViewDataDelegate
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
+    [moves enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        Square *square = (Square *) obj;
+    }];
 }
 
 @end

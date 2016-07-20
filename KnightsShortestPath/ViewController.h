@@ -10,9 +10,10 @@
 #import "Square.h"
 #import "Knight.h"
 #import "KnightsShortestPath.h"
+#import "ShortestPathTableViewCell.h"
 #import "UIView+Additions.h"
 
-@interface ViewController : UIViewController <UITableViewDataSource>
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UIView *startView;
 @property (nonatomic, strong) UIView *endView;

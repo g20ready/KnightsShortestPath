@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="KGk-i7-Jjw" customClass="ShortestPathTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ofb-IS-hSi">
+                        <rect key="frame" x="262" y="15" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="8Ed-JN-S1m"/>
+                            <constraint firstAttribute="width" constant="50" id="EUh-bk-Czu"/>
+                        </constraints>
+                        <state key="normal" image="playButton"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUf-CM-sUV">
+                        <rect key="frame" x="18" y="15" width="236" height="50"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="eUf-CM-sUV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="3Uf-QF-hTk"/>
+                    <constraint firstItem="Ofb-IS-hSi" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="3ku-kE-QCs"/>
+                    <constraint firstItem="Ofb-IS-hSi" firstAttribute="leading" secondItem="eUf-CM-sUV" secondAttribute="trailing" constant="8" id="CBo-Te-v7m"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="eUf-CM-sUV" secondAttribute="bottom" constant="6" id="Orv-7a-FYx"/>
+                    <constraint firstItem="eUf-CM-sUV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="jha-d1-i1Z"/>
+                    <constraint firstItem="Ofb-IS-hSi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vxS-8S-xJc"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="playButton" destination="Ofb-IS-hSi" id="rKv-as-hR6"/>
+                <outlet property="resultLabel" destination="eUf-CM-sUV" id="Qt3-Mw-ZXH"/>
+            </connections>
+            <point key="canvasLocation" x="393" y="333"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="playButton" width="50" height="50"/>
+    </resources>
+</document>
