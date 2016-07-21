@@ -114,21 +114,31 @@
 - (IBAction)handleResetClicked:(id)sender {
     self.title = @"Select Start Square";
     if (self.startView) {
+        [self.startView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
         [self.startView setBackgroundColor:[self colorAtRow:self.startView.boardRow
                                                      andCol:self.startView.boardColumn
                                                     reverse:NO]];
     }
     if (self.endView) {
+        [self.endView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
         [self.endView setBackgroundColor:[self colorAtRow:self.endView.boardRow
                                                      andCol:self.endView.boardColumn
                                                   reverse:NO]];
     }
+    
+    [self clearMarkedViews];
     
     self.startView = nil;
     self.endView = nil;
     
     [self.calculateBarButtonItem setEnabled:NO];
 }
+
+
 
 - (IBAction)handleCalculateClicked:(id)sender {
     KnightsShortestPath *ksp = [[KnightsShortestPath alloc] init];
@@ -183,6 +193,12 @@
     }
 }
 
+- (UIView*) viewAtRow:(NSInteger) row atCol:(NSInteger) col {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.boardRow == %ld AND self.boardColumn == %ld", row, col];
+    return (UIView *) [[self.boardContainerView.subviews
+                        filteredArrayUsingPredicate:predicate] objectAtIndex:0];
+}
+
 - (void) addLabelWithText:(NSString *) value toView:(UIView *) view{
     UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
     label.textAlignment = NSTextAlignmentCenter;
@@ -192,6 +208,33 @@
                                reverse:YES];
     label.text = value;
     [view addSubview:label];
+}
+
+- (void) markViewsAtIndexPath:(NSIndexPath *) indexPath {
+    [self clearMarkedViews];
+    NSMutableArray *views = [NSMutableArray array];
+    NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
+    for (NSInteger i=1; i<[moves count]-1; i++) {
+        Square *square = (Square *) [moves objectAtIndex:i];
+        UIView *view = [self viewAtRow:square.row atCol:square.col];
+        [self addLabelWithText:[NSString stringWithFormat:@"%ld", i]
+                        toView:view];
+        [views addObject:view];
+    }
+    self.markedViews = [NSArray arrayWithArray:views];
+    
+}
+
+- (void) clearMarkedViews {
+    if (!self.markedViews)
+        return;
+    
+    [self.markedViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [((UIView *)obj).subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
+    }];
+    self.markedViews = [NSMutableArray array];
 }
 
 
@@ -229,7 +272,6 @@
     CGPoint rootViewPoint = [sender.superview convertPoint:center
                                                     toView:self.resultsTableView];
     NSIndexPath *indexPath = [self.resultsTableView indexPathForRowAtPoint:rootViewPoint];
-    //TODO animation
 }
 
 - (NSString *) movesDescriptionAtIndexPath:(NSIndexPath *) indexPath {
@@ -246,10 +288,7 @@
 #pragma mark - TableViewDataDelegate
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
-    [moves enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        Square *square = (Square *) obj;
-    }];
+    [self markViewsAtIndexPath:indexPath];
 }
 
 @end

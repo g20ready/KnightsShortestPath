@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UIView *startView;
 @property (nonatomic, strong) UIView *endView;
 
+@property (nonatomic, strong) NSArray *markedViews;
+
 @property (nonatomic, strong) NSArray *solutions;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *calculateBarButtonItem;

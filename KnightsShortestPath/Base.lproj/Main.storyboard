@@ -42,6 +42,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="g77-jL-xEo"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="A1Z-Ui-1Wy"/>
                                 </connections>
                             </tableView>
                         </subviews>
