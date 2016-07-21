@@ -13,7 +13,6 @@ NSString *const BOARD_COLUMN_KEY = @"boardColumn";
 
 @implementation UIView (Additions)
 
-
 @dynamic boardRow;
 @dynamic boardColumn;
 

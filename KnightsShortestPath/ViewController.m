@@ -53,7 +53,6 @@
     
     //We reserve 2 * notation margin
     CGFloat squareSide = (self.boardContainerView.frame.size.width - 2.f * notationMargin) / 8;
-    NSLog(@"Square Side is %f", squareSide);
     
     UIView *view = nil;
     CGFloat x;
@@ -136,11 +135,14 @@
     self.endView = nil;
     
     [self.calculateBarButtonItem setEnabled:NO];
+    
+    self.solutions = [NSArray array];
+    [self.resultsTableView reloadData];
 }
 
-
-
 - (IBAction)handleCalculateClicked:(id)sender {
+    [self clearMarkedViews];
+    
     KnightsShortestPath *ksp = [[KnightsShortestPath alloc] init];
     
     Square *startSquare = [[Square alloc] initWithRow:self.startView.boardRow andCol:self.startView.boardColumn];
@@ -159,22 +161,6 @@
     }
 }
 
-#pragma mark - Helper Functions
-
-- (UILabel *) notationLabelWithFrame:(CGRect) frame andName:(NSString *) name {
-    UILabel *notation = [[UILabel alloc] initWithFrame:frame];
-    notation.textColor = [UIColor whiteColor];
-    notation.textAlignment = NSTextAlignmentCenter;
-    notation.font = [UIFont boldSystemFontOfSize:14.f];
-    notation.text = name;
-    return notation;
-}
-
-- (UIColor*) colorAtRow:(NSInteger) row andCol:(NSInteger) col reverse:(BOOL) reversed {
-    BOOL value = reversed ? row % 2 != col % 2 : row % 2 == col % 2;
-    return value ? [UIColor whiteColor] : [UIColor blackColor];;
-}
-
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     if (!self.startView) {
         self.startView = recognizer.view;
@@ -191,6 +177,26 @@
         self.calculateBarButtonItem.enabled = YES;
         self.title = @"Hit Calculate!";
     }
+}
+
+#pragma mark - Helper Functions
+
+- (UILabel *) notationLabelWithFrame:(CGRect) frame andName:(NSString *) name {
+    UILabel *notation = [[UILabel alloc] initWithFrame:frame];
+    notation.textColor = [UIColor whiteColor];
+    notation.textAlignment = NSTextAlignmentCenter;
+    notation.font = [UIFont boldSystemFontOfSize:14.f];
+    notation.text = name;
+    //We mark boardRow and boardColumn with -1
+    //so they are not returned when viewAtRow:col: is called
+    notation.boardRow = -1;
+    notation.boardColumn = -1;
+    return notation;
+}
+
+- (UIColor*) colorAtRow:(NSInteger) row andCol:(NSInteger) col reverse:(BOOL) reversed {
+    BOOL value = reversed ? row % 2 != col % 2 : row % 2 == col % 2;
+    return value ? [UIColor whiteColor] : [UIColor blackColor];;
 }
 
 - (UIView*) viewAtRow:(NSInteger) row atCol:(NSInteger) col {
@@ -237,6 +243,54 @@
     self.markedViews = [NSMutableArray array];
 }
 
+- (void) animateMovesAtIndexPath: (NSIndexPath *) indexPath {
+    NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
+    
+    __block NSMutableArray* animationBlocks = [NSMutableArray array];
+    animationBlock (^getNextAnimation)() = ^(){
+        if ([animationBlocks count] > 0){
+            animationBlock block = (animationBlock)[animationBlocks objectAtIndex:0];
+            [animationBlocks removeObjectAtIndex:0];
+            return block;
+        } else {
+            return ^(BOOL finished){
+                animationBlocks = nil;
+            };
+        }
+    };
+    
+    for (NSInteger i=0; i<[moves count]-1;i++) {
+        Square *fromSquare = (Square *) [moves objectAtIndex:i];
+        Square *toSquare = (Square *) [moves objectAtIndex:i+1];
+        [animationBlocks addObject:^(BOOL finished) {
+            NSLog(@"Animating from [%ld, %ld] to [%ld, %ld]",
+                  fromSquare.row, fromSquare.col, toSquare.row, toSquare.col);
+            
+            UIView *fromView = [self viewAtRow:fromSquare.row atCol:fromSquare.col];
+            NSLog(@"fromView x, y = [%f, %f]", fromView.frame.origin.x, fromView.frame.origin.y);
+            
+            UIView *toView = [self viewAtRow:toSquare.row atCol:toSquare.col];
+            NSLog(@"toView x, y = [%f, %f]", toView.frame.origin.x, toView.frame.origin.y);
+            
+            __block UIImageView *knight = [[UIImageView alloc] initWithFrame:fromView.frame];
+            [self.boardContainerView addSubview:knight];
+            
+            knight.backgroundColor = [UIColor brownColor];
+            knight.image = [UIImage imageNamed:@"chessKnight"];
+            
+            [UIView animateWithDuration:1.0 animations:^{
+                knight.frame = toView.frame;
+            } completion:^(BOOL finished) {
+                [knight removeFromSuperview];
+                getNextAnimation()(finished);
+            }];
+        
+        }];
+    }
+    
+    getNextAnimation()(YES);
+}
+
 
 #pragma mark - TableViewDataSource
 
@@ -272,6 +326,7 @@
     CGPoint rootViewPoint = [sender.superview convertPoint:center
                                                     toView:self.resultsTableView];
     NSIndexPath *indexPath = [self.resultsTableView indexPathForRowAtPoint:rootViewPoint];
+    [self animateMovesAtIndexPath:indexPath];
 }
 
 - (NSString *) movesDescriptionAtIndexPath:(NSIndexPath *) indexPath {

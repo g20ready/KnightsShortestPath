@@ -27,5 +27,10 @@
 @property (weak, nonatomic) IBOutlet UIView *boardContainerView;
 @property (weak, nonatomic) IBOutlet UITableView *resultsTableView;
 
+
+#pragma mark - animations
+
+typedef void(^animationBlock)(BOOL finished);
+
 @end
 
