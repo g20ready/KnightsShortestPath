@@ -20,7 +20,7 @@
 
 @property (nonatomic, strong) NSArray *markedViews;
 
-@property (nonatomic, strong) NSArray *solutions;
+@property (nonatomic, strong) NSMutableArray *solutions;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *calculateBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *resetBarButtonItem;

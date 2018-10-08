@@ -12,10 +12,15 @@
 #import "Knight.h"
 
 @interface KnightsShortestPath : NSObject
-
-- (NSArray *) findShortestPathFrom:(Square *) start
-                                to:(Square *) end
-                             piece:(id <Piece>) piece
-                 withMaxMovesCount:(NSInteger) maxMovesCount;
-
+    
+    typedef void (^pathFoundBlock)(NSArray*);
+    typedef void (^completionBlock)();
+    
+- (void) findShortestPathFrom:(Square *) start
+                           to:(Square *) end
+                        piece:(id <Piece>) piece
+            withMaxMovesCount:(NSInteger) maxMovesCount
+           withPathFoundBlock:(pathFoundBlock) pathFoundBlock
+              completionBlock:(completionBlock) completionBlock;
+    
 @end

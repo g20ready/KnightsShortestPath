@@ -9,40 +9,43 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-
-@end
+    
+    @end
 
 @implementation ViewController
-
+    
 #pragma mark - Lifecycle
-
+    
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.solutions = [NSMutableArray array];
+    
     [self initialize];
     [self initializeTableView];
 }
-
+    
 - (void)viewDidAppear:(BOOL)animated {
     [self initializeBoard];
 }
-
+    
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
+    
 #pragma mark - Initialization
-
+    
 - (void) initialize {
     [self.calculateBarButtonItem setEnabled:NO];
     self.title = @"Select Start Square";
 }
-
+    
 - (void) initializeTableView {
     self.resultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.resultsTableView registerNib:[ShortestPathTableViewCell nib]
                 forCellReuseIdentifier:[ShortestPathTableViewCell reuseIdentifier]];
 }
-
+    
 - (void) initializeBoard {
     //Empty board
     [self.boardContainerView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -107,9 +110,9 @@
         }
     }
 }
-
+    
 #pragma mark - Handlers
-
+    
 - (IBAction)handleResetClicked:(id)sender {
     self.title = @"Select Start Square";
     if (self.startView) {
@@ -125,7 +128,7 @@
             [obj removeFromSuperview];
         }];
         [self.endView setBackgroundColor:[self colorAtRow:self.endView.boardRow
-                                                     andCol:self.endView.boardColumn
+                                                   andCol:self.endView.boardColumn
                                                   reverse:NO]];
     }
     
@@ -136,10 +139,10 @@
     
     [self.calculateBarButtonItem setEnabled:NO];
     
-    self.solutions = [NSArray array];
+    self.solutions = [NSMutableArray array];
     [self.resultsTableView reloadData];
 }
-
+    
 - (IBAction)handleCalculateClicked:(id)sender {
     [self clearMarkedViews];
     
@@ -148,19 +151,27 @@
     Square *startSquare = [[Square alloc] initWithRow:self.startView.boardRow andCol:self.startView.boardColumn];
     
     Square *endSquare = [[Square alloc] initWithRow:self.endView.boardRow andCol:self.endView.boardColumn];
-    
-    self.solutions = [ksp findShortestPathFrom:startSquare to:endSquare piece:[[Knight alloc] init] withMaxMovesCount:3];
-    
-    [self.resultsTableView reloadData];
-    
-    if ([self.solutions count] == 0) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Finished Calculating" message:@"No Path found" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:action];
-        [self presentViewController:alertController animated:YES completion:nil];
-    }
+    self.title = @"Calculating...";
+    [ksp findShortestPathFrom:startSquare
+                           to:endSquare
+                        piece:[[Knight alloc] init]
+            withMaxMovesCount:9
+           withPathFoundBlock:^(NSArray *solution)
+     {
+         [self.solutions addObject:solution];
+         [self.resultsTableView reloadData];
+     } completionBlock:^{
+         
+         self.title = @"Finished...";
+         if ([self.solutions count] == 0) {
+             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Finished Calculating" message:@"No Path found" preferredStyle:UIAlertControllerStyleAlert];
+             UIAlertAction *action = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+             [alertController addAction:action];
+             [self presentViewController:alertController animated:YES completion:nil];
+         }
+     }];
 }
-
+    
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     if (!self.startView) {
         self.startView = recognizer.view;
@@ -178,9 +189,9 @@
         self.title = @"Hit Calculate!";
     }
 }
-
+    
 #pragma mark - Helper Functions
-
+    
 - (UILabel *) notationLabelWithFrame:(CGRect) frame andName:(NSString *) name {
     UILabel *notation = [[UILabel alloc] initWithFrame:frame];
     notation.textColor = [UIColor whiteColor];
@@ -193,18 +204,18 @@
     notation.boardColumn = -1;
     return notation;
 }
-
+    
 - (UIColor*) colorAtRow:(NSInteger) row andCol:(NSInteger) col reverse:(BOOL) reversed {
     BOOL value = reversed ? row % 2 != col % 2 : row % 2 == col % 2;
     return value ? [UIColor whiteColor] : [UIColor blackColor];;
 }
-
+    
 - (UIView*) viewAtRow:(NSInteger) row atCol:(NSInteger) col {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.boardRow == %ld AND self.boardColumn == %ld", row, col];
     return (UIView *) [[self.boardContainerView.subviews
                         filteredArrayUsingPredicate:predicate] objectAtIndex:0];
 }
-
+    
 - (void) addLabelWithText:(NSString *) value toView:(UIView *) view{
     UILabel *label = [[UILabel alloc] initWithFrame:view.bounds];
     label.textAlignment = NSTextAlignmentCenter;
@@ -215,7 +226,7 @@
     label.text = value;
     [view addSubview:label];
 }
-
+    
 - (void) markViewsAtIndexPath:(NSIndexPath *) indexPath {
     [self clearMarkedViews];
     NSMutableArray *views = [NSMutableArray array];
@@ -230,10 +241,10 @@
     self.markedViews = [NSArray arrayWithArray:views];
     
 }
-
+    
 - (void) clearMarkedViews {
     if (!self.markedViews)
-        return;
+    return;
     
     [self.markedViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [((UIView *)obj).subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -242,7 +253,7 @@
     }];
     self.markedViews = [NSMutableArray array];
 }
-
+    
 - (void) animateMovesAtIndexPath: (NSIndexPath *) indexPath {
     NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
     
@@ -284,35 +295,35 @@
                 [knight removeFromSuperview];
                 getNextAnimation()(finished);
             }];
-        
+            
         }];
     }
     
     getNextAnimation()(YES);
 }
-
-
+    
+    
 #pragma mark - TableViewDataSource
-
+    
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
+    {
+        return 1;
+    }
+    
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.solutions ? [self.solutions count] : 0;
-}
-
+    {
+        return self.solutions ? [self.solutions count] : 0;
+    }
+    
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *reuseIdentifier = [ShortestPathTableViewCell reuseIdentifier];
-
-    ShortestPathTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
+    {
+        NSString *reuseIdentifier = [ShortestPathTableViewCell reuseIdentifier];
+        
+        ShortestPathTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+        [self configureCell:cell atIndexPath:indexPath];
+        return cell;
+    }
+    
 - (void) configureCell:(ShortestPathTableViewCell *) cell
            atIndexPath:(NSIndexPath *) indexPath {
     cell.resultLabel.text = [self movesDescriptionAtIndexPath:indexPath];
@@ -320,7 +331,7 @@
                         action:@selector(handlePlayButtonClicked:)
               forControlEvents:UIControlEventTouchUpInside];
 }
-
+    
 - (void)handlePlayButtonClicked:(UIButton *)sender {
     CGPoint center= sender.center;
     CGPoint rootViewPoint = [sender.superview convertPoint:center
@@ -328,7 +339,7 @@
     NSIndexPath *indexPath = [self.resultsTableView indexPathForRowAtPoint:rootViewPoint];
     [self animateMovesAtIndexPath:indexPath];
 }
-
+    
 - (NSString *) movesDescriptionAtIndexPath:(NSIndexPath *) indexPath {
     NSArray *moves = [self.solutions objectAtIndex:indexPath.row];
     __block NSString *description = @"";
@@ -339,11 +350,11 @@
     description = [description substringToIndex:[description length] - 3];
     return description;
 }
-
+    
 #pragma mark - TableViewDataDelegate
-
+    
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self markViewsAtIndexPath:indexPath];
 }
-
-@end
+    
+    @end
